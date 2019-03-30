@@ -186,8 +186,6 @@ install:
 
     if [ "$CLANG" = "7" ]; then
       export CXXFLAGS="-stdlib=libc++"
-      # Suppress this warning b/c it's inherent to how `py::self` is used for overloads
-      export CXXFLAGS="$CXXFLAGS -Wno-self-assign-overloaded"
     fi
 
     export NPY_NUM_BUILD_JOBS=2
