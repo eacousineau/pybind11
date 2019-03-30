@@ -53,6 +53,7 @@ matrix:
   # - services: docker
   #   env: PYTHON=3.5 CPP=14 GCC=6 DEBUG=1
   - env: PYTHON=3.6 CPP=17 GCC=7
+    dist: xenial
     addons:
       apt:
         sources:
@@ -63,6 +64,7 @@ matrix:
           - python3.6-venv
           - g++-7
   - os: linux
+    dist: xenial
     env: PYTHON=3.6 CPP=17 CLANG=7
     addons:
       apt:
