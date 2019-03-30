@@ -77,7 +77,6 @@ matrix:
           - clang-7
           - llvm-7-dev
           - lld-7
-          - libstdc++7
   # - os: osx
   #   osx_image: xcode7.3
   #   env: PYTHON=2.7 CPP=14 CLANG CMAKE=1
@@ -201,11 +200,11 @@ install:
 script:
 - |
   set -x
-  $SCRIPT_RUN_PREFIX cmake ${CMAKE_EXTRA_ARGS}
-    -DPYBIND11_PYTHON_VERSION=$PYTHON
-    -DPYBIND11_CPP_STANDARD=$CPP
-    -DPYBIND11_WERROR=${WERROR:-ON}
-    -DDOWNLOAD_CATCH=${DOWNLOAD_CATCH:-ON}
+  $SCRIPT_RUN_PREFIX cmake ${CMAKE_EXTRA_ARGS} \
+    -DPYBIND11_PYTHON_VERSION=$PYTHON \
+    -DPYBIND11_CPP_STANDARD=$CPP \
+    -DPYBIND11_WERROR=${WERROR:-ON} \
+    -DDOWNLOAD_CATCH=${DOWNLOAD_CATCH:-ON} \
     .
 - |
   set -x
