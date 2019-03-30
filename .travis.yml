@@ -52,18 +52,30 @@ matrix:
     env: PYTHON=2.7 CPP=14 GCC=6 CMAKE=1
   - services: docker
     env: PYTHON=3.5 CPP=14 GCC=6 DEBUG=1
-  - services: docker
-    env: PYTHON=3.6 CPP=17 GCC=7
+  - env: PYTHON=3.6 CPP=17 GCC=7
     addons:
       apt:
         sources:
           - deadsnakes
+          - ubuntu-toolchain-r-test
+        packages:
+          - python3.6-dev
+          - python3.6-venv
+          - g++-7
   - os: linux
     env: PYTHON=3.6 CPP=17 CLANG=7
     addons:
       apt:
-        sources: [deadsnakes, llvm-toolchain-trusty-7, ubuntu-toolchain-r-test]
-        packages: [python3.6-dev python3.6-venv clang-7 llvm-7-dev, lld-7]
+        sources:
+          - deadsnakes
+          - llvm-toolchain-trusty-7
+        packages:
+          - python3.6-dev
+          - python3.6-venv
+          - clang-7
+          - llvm-7-dev
+          - lld-7
+          - libstdc++7
   - os: osx
     osx_image: xcode7.3
     env: PYTHON=2.7 CPP=14 CLANG CMAKE=1
