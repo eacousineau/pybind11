@@ -70,7 +70,7 @@ matrix:
       apt:
         sources:
           - deadsnakes
-          - llvm-toolchain-trusty-7
+          - llvm-toolchain-xenial-7
         packages:
           - python3.6-dev
           - python3.6-venv
@@ -122,9 +122,9 @@ before_install:
       fi
       export CXX=g++-$GCC CC=gcc-$GCC
     fi
-    if [ "$GCC" = "6" ]; then DOCKER=${ARCH:+$ARCH/}debian:stretch
-    elif [ "$GCC" = "7" ]; then DOCKER=debian:buster EXTRA_PACKAGES+=" catch python3-distutils" DOWNLOAD_CATCH=OFF
-    fi
+    #if [ "$GCC" = "6" ]; then DOCKER=${ARCH:+$ARCH/}debian:stretch
+    #elif [ "$GCC" = "7" ]; then DOCKER=debian:buster EXTRA_PACKAGES+=" catch python3-distutils" DOWNLOAD_CATCH=OFF
+    #fi
   elif [ "$TRAVIS_OS_NAME" = "osx" ]; then
     export CXX=clang++ CC=clang;
   fi
