@@ -213,7 +213,7 @@ script:
     .
 - |
   set -x
-  $SCRIPT_RUN_PREFIX make pytest -j 2
+  $SCRIPT_RUN_PREFIX make pytest -j 2 VERBOSE=1
 - |
   set -x
   $SCRIPT_RUN_PREFIX make cpptest -j 2
