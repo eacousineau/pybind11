@@ -9,6 +9,7 @@ matrix:
   #   also tests the automatic discovery functions in CMake (Python version, C++ standard).
   - os: linux
     dist: xenial # Necessary to run doxygen 1.8.15
+    # TODO(eric.cousineau): These aren't actually used, they're only for naming. Use "name" field instead?
     env: STYLE DOCS PIP
     cache: false
     before_install:
@@ -41,14 +42,21 @@ matrix:
     env: PYTHON=2.7 CPP=11 GCC=4.8
     addons:
       apt:
-        packages: [cmake=2.\*, cmake-data=2.\*]
+        packages:
+          - cmake=2.\*
+          - cmake-data=2.\*
   - os: linux
     dist: trusty
     env: PYTHON=3.6 CPP=11 GCC=4.8
     addons:
       apt:
-        sources: [deadsnakes]
-        packages: [python3.6-dev, python3.6-venv, cmake=2.\*, cmake-data=2.\*]
+        sources:
+          - deadsnakes
+        packages:
+          - python3.6-dev
+          - python3.6-venv
+          - cmake=2.\*
+          - cmake-data=2.\*
   - os: linux
     dist: trusty
     env: PYTHON=2.7 CPP=14 GCC=6 CMAKE=1
@@ -57,7 +65,9 @@ matrix:
     env: PYTHON=3.5 CPP=14 GCC=6 DEBUG=1
     addons:
       apt:
-        packages: [python3.5-dev, python3.5-venv]
+        packages:
+          - python3.5-dev
+          - python3.5-venv
   - os: linux
     dist: xenial
     env: PYTHON=3.6 CPP=17 GCC=7
@@ -100,7 +110,10 @@ matrix:
     env: PYPY=7.1 PYTHON=2.7 CPP=11 GCC=4.8 EXPECT_FAILURE
     addons:
       apt:
-        packages: [libblas-dev, liblapack-dev, gfortran]
+        packages:
+          - libblas-dev
+          - liblapack-dev
+          - gfortran
   # Build in 32-bit mode and tests against the CMake-installed version
   - os: linux
     dist: trusty
