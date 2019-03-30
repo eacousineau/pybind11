@@ -17,7 +17,7 @@ matrix:
     - PY_CMD=python3
     - $PY_CMD -m pip install --user --upgrade pip wheel setuptools
     install: # Breathe does not yet support Sphinx 2
-    - $PY_CMD -m pip install --user --upgrade sphinx<2 sphinx_rtd_theme breathe flake8 pep8-naming pytest
+    - $PY_CMD -m pip install --user --upgrade "sphinx<2" sphinx_rtd_theme breathe flake8 pep8-naming pytest
     - curl -fsSL https://sourceforge.net/projects/doxygen/files/rel-1.8.15/doxygen-1.8.15.linux.bin.tar.gz/download | tar xz
     - export PATH="$PWD/doxygen-1.8.15/bin:$PATH"
     script:
@@ -54,6 +54,10 @@ matrix:
     env: PYTHON=3.5 CPP=14 GCC=6 DEBUG=1
   - services: docker
     env: PYTHON=3.6 CPP=17 GCC=7
+    addons:
+      apt:
+        sources:
+          - deadsnakes
   - os: linux
     env: PYTHON=3.6 CPP=17 CLANG=7
     addons:
@@ -164,22 +168,7 @@ install:
   else
 
     if [ "$CLANG" = "7" ]; then
-      if ! [ -d ~/.local/include/c++/v1 ]; then
-        # Neither debian nor llvm provide a libc++ 5.1 deb; luckily it's fairly quick
-        # to build, install (and cache), so do it ourselves:
-        git clone --depth=1 https://github.com/llvm-mirror/llvm.git llvm-source
-        git clone https://github.com/llvm-mirror/libcxx.git llvm-source/projects/libcxx -b release_70
-        git clone https://github.com/llvm-mirror/libcxxabi.git llvm-source/projects/libcxxabi -b release_70
-        mkdir llvm-build && cd llvm-build
-        cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=~/.local ../llvm-source
-        make -j2 install-cxxabi install-cxx
-        cp -a include/c++/v1/*cxxabi*.h ~/.local/include/c++/v1
-        cd ..
-      fi
-      export CXXFLAGS="-isystem $HOME/.local/include/c++/v1 -stdlib=libc++"
-      export LDFLAGS="-L$HOME/.local/lib -fuse-ld=lld-$CLANG"
-      export LD_LIBRARY_PATH="$HOME/.local/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
-      if [ "$CPP" = "-std=c++17" ]; then CPP="-std=c++1z"; fi
+      export CXXFLAGS="-stdlib=libc++"
     fi
 
     export NPY_NUM_BUILD_JOBS=2
