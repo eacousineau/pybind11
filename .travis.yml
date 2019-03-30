@@ -67,7 +67,6 @@ matrix:
       apt:
         packages:
           - python3.5-dev
-          - python3.5-venv
   - os: linux
     dist: xenial
     env: PYTHON=3.6 CPP=17 GCC=7
