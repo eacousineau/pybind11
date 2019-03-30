@@ -78,6 +78,7 @@ matrix:
           - llvm-7-dev
           - lld-7
           - libc++-7-dev
+          - libc++abi-7-dev  # Why is this necessary???
   # - os: osx
   #   osx_image: xcode7.3
   #   env: PYTHON=2.7 CPP=14 CLANG CMAKE=1
