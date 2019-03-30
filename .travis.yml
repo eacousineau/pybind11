@@ -111,6 +111,7 @@ cache:
 before_install:
 - |
   # Configure build variables
+  set -x
   if [ "$TRAVIS_OS_NAME" = "linux" ]; then
     if [ -n "$CLANG" ]; then
       export CXX=clang++-$CLANG CC=clang-$CLANG
@@ -132,7 +133,7 @@ before_install:
   if [ -n "$DEBUG" ]; then CMAKE_EXTRA_ARGS+=" -DCMAKE_BUILD_TYPE=Debug"; fi
 - |
   # Initialize environment
-  set -e
+  set -ex
   if [ -n "$DOCKER" ]; then
     docker pull $DOCKER
 
@@ -164,12 +165,12 @@ before_install:
     $PY_CMD --version
     $PY_CMD -m pip install --user --upgrade pip wheel
   fi
-  set +e
+  set +ex
 install:
 - |
   # Install dependencies
+  set -ex
   cmake --version
-  set -e
   if [ -n "$DOCKER" ]; then
     if [ -n "$DEBUG" ]; then
       PY_DEBUG="python$PYTHON-dbg python$PY-scipy-dbg"
@@ -196,17 +197,22 @@ install:
         tar --extract -j --directory=eigen --strip-components=1
     export CMAKE_INCLUDE_PATH="${CMAKE_INCLUDE_PATH:+$CMAKE_INCLUDE_PATH:}$PWD/eigen"
   fi
-  set +e
+  set +ex
 script:
-- $SCRIPT_RUN_PREFIX cmake ${CMAKE_EXTRA_ARGS}
+- set -x
+  $SCRIPT_RUN_PREFIX cmake ${CMAKE_EXTRA_ARGS}
     -DPYBIND11_PYTHON_VERSION=$PYTHON
     -DPYBIND11_CPP_STANDARD=$CPP
     -DPYBIND11_WERROR=${WERROR:-ON}
     -DDOWNLOAD_CATCH=${DOWNLOAD_CATCH:-ON}
     .
-- $SCRIPT_RUN_PREFIX make pytest -j 2
-- $SCRIPT_RUN_PREFIX make cpptest -j 2
-- if [ -n "$CMAKE" ]; then $SCRIPT_RUN_PREFIX make test_cmake_build; fi
+- set -x
+  $SCRIPT_RUN_PREFIX make pytest -j 2
+- set -x
+  $SCRIPT_RUN_PREFIX make cpptest -j 2
+- set -x
+  if [ -n "$CMAKE" ]; then $SCRIPT_RUN_PREFIX make test_cmake_build; fi
 after_failure: cat tests/test_cmake_build/*.log*
 after_script:
-- if [ -n "$DOCKER" ]; then docker stop "$containerid"; docker rm "$containerid"; fi
+- set -x
+  if [ -n "$DOCKER" ]; then docker stop "$containerid"; docker rm "$containerid"; fi
