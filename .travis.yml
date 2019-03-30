@@ -1,5 +1,4 @@
 language: cpp
-dist: trusty
 matrix:
   include:
   # This config does a few things:
@@ -38,20 +37,30 @@ matrix:
   # The following are regular test configurations, including optional dependencies.
   # With regard to each other they differ in Python version, C++ standard and compiler.
   - os: linux
+    dist: trusty
     env: PYTHON=2.7 CPP=11 GCC=4.8
     addons:
       apt:
         packages: [cmake=2.\*, cmake-data=2.\*]
   - os: linux
+    dist: trusty
     env: PYTHON=3.6 CPP=11 GCC=4.8
     addons:
       apt:
         sources: [deadsnakes]
-        packages: [python3.6-dev python3.6-venv, cmake=2.\*, cmake-data=2.\*]
-  - env: PYTHON=2.7 CPP=14 GCC=6 CMAKE=1
-  - env: PYTHON=3.5 CPP=14 GCC=6 DEBUG=1
-  - env: PYTHON=3.6 CPP=17 GCC=7
+        packages: [python3.6-dev, python3.6-venv, cmake=2.\*, cmake-data=2.\*]
+  - os: linux
+    dist: trusty
+    env: PYTHON=2.7 CPP=14 GCC=6 CMAKE=1
+  - os: linux
+    dist: trusty
+    env: PYTHON=3.5 CPP=14 GCC=6 DEBUG=1
+    addons:
+      apt:
+        packages: [python3.5-dev, python3.5-venv]
+  - os: linux
     dist: xenial
+    env: PYTHON=3.6 CPP=17 GCC=7
     addons:
       apt:
         sources:
@@ -86,13 +95,16 @@ matrix:
     env: PYTHON=3.7 CPP=14 CLANG DEBUG=1
   # Test a PyPy 2.7 build
   - os: linux
+    dist: trusty
     # WARNING: This is currently broken!!! (Due to PyPy refcounting changes, etc.)
     env: PYPY=7.1 PYTHON=2.7 CPP=11 GCC=4.8 EXPECT_FAILURE
     addons:
       apt:
         packages: [libblas-dev, liblapack-dev, gfortran]
   # Build in 32-bit mode and tests against the CMake-installed version
-  - services: docker
+  - os: linux
+    dist: trusty
+    services: docker
     env: DOCKER=i386/debian:stretch PYTHON=3.5 CPP=14 GCC=6 INSTALL=1
     script:
       - |
