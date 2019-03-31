@@ -21,6 +21,9 @@ class handle; class object;
 class str; class iterator;
 struct arg; struct arg_v;
 
+template <return_value_policy policy = return_value_policy::automatic_reference, typename... Args>
+void print(Args &&...args);
+
 NAMESPACE_BEGIN(detail)
 class args_proxy;
 inline bool isinstance_generic(handle obj, const std::type_info &tp);
@@ -547,6 +550,7 @@ struct sequence_item {
     using key_type = size_t;
 
     static object get(handle obj, size_t index) {
+        pybind11::print("ref get: ", obj, index);
         PyObject *result = PySequence_GetItem(obj.ptr(), static_cast<ssize_t>(index));
         if (!result) { throw error_already_set(); }
         return reinterpret_steal<object>(result);

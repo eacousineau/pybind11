@@ -149,7 +149,10 @@ template <typename Type, typename Value> struct list_caster {
         auto s = reinterpret_borrow<sequence>(src);
         value.clear();
         reserve_maybe(s, &value);
+        pybind11::print("Try indexing...");
         for (auto it : s) {
+            pybind11::print("- Got it...");
+            pybind11::print(" -> ", it);
             value_conv conv;
             if (!conv.load(it, convert))
                 return false;
