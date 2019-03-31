@@ -121,6 +121,7 @@ void vector_modifiers(enable_if_t<is_copy_constructible<typename Vector::value_t
            "Add an item to the end of the list");
 
     cl.def(init([](iterable it) {
+        pybind11::print("ctor: iterable");
         auto v = std::unique_ptr<Vector>(new Vector());
         v->reserve(len(it));
         for (handle h : it)
@@ -169,6 +170,7 @@ void vector_modifiers(enable_if_t<is_copy_constructible<typename Vector::value_t
         "Remove and return the item at index ``i``"
     );
 
+    pybind11::print("I haz thing", cl);
     cl.def("__setitem__",
         [](Vector &v, SizeType i, const T &t) {
             if (i >= v.size())
