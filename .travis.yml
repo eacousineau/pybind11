@@ -110,8 +110,7 @@ matrix:
   # Test a PyPy 2.7 build
   - os: linux
     dist: trusty
-    # WARNING: This is currently broken!!! (Due to PyPy refcounting changes, etc.)
-    env: PYPY=7.1 PYTHON=2.7 CPP=11 GCC=4.8 EXPECT_FAILURE
+    env: PYPY=5.8 PYTHON=2.7 CPP=11 GCC=4.8
     addons:
       apt:
         packages:
@@ -176,9 +175,9 @@ before_install:
     SCRIPT_RUN_PREFIX="docker exec --tty $containerid"
     $SCRIPT_RUN_PREFIX sh -c 'for s in 0 15; do sleep $s; apt-get update && apt-get -qy dist-upgrade && break; done'
   else
-    if [ "$PYPY" = "7.1" ]; then
-      curl -fSL https://bitbucket.org/pypy/pypy/downloads/pypy2.7-v7.1.0-linux64.tar.bz2 | tar xj
-      PY_CMD=$(echo `pwd`/pypy2.7-v7.1.0-linux64/bin/pypy)
+    if [ "$PYPY" = "5.8" ]; then
+      curl -fSL https://bitbucket.org/pypy/pypy/downloads/pypy2-v5.8.0-linux64.tar.bz2 | tar xj
+      PY_CMD=$(echo `pwd`/pypy2-v5.8.0-linux64/bin/pypy)
       CMAKE_EXTRA_ARGS+=" -DPYTHON_EXECUTABLE:FILEPATH=$PY_CMD"
     else
       PY_CMD=python$PYTHON
