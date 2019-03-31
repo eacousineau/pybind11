@@ -210,8 +210,9 @@ else()
 endif()
 
 # A single command to compile and run the tests
+add_custom_target(build_pytest DEPENDS ${test_targets})
 add_custom_target(pytest COMMAND ${PYTHON_EXECUTABLE} -m pytest ${PYBIND11_PYTEST_FILES}
-                  DEPENDS ${test_targets} WORKING_DIRECTORY ${testdir} ${PYBIND11_USES_TERMINAL})
+                  DEPENDS build_pytest WORKING_DIRECTORY ${testdir} ${PYBIND11_USES_TERMINAL})
 
 if(PYBIND11_TEST_OVERRIDE)
   add_custom_command(TARGET pytest POST_BUILD

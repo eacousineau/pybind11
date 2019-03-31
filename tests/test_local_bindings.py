@@ -158,6 +158,8 @@ def test_stl_caster_vs_stl_bind(msg):
     import pybind11_cross_module_tests as cm
 
     v1 = cm.VectorInt([1, 2, 3])
+    print(v1[0])
+    print(v1.__getitem__)
     assert m.load_vector_via_caster(v1) == 6
     assert cm.load_vector_via_binding(v1) == 6
 

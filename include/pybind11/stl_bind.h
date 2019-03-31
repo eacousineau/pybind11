@@ -126,6 +126,7 @@ void vector_modifiers(enable_if_t<is_copy_constructible<typename Vector::value_t
         v->reserve(len(it));
         for (handle h : it)
            v->push_back(h.cast<T>());
+        pybind11::print("ctor: iterable - done");
         return v.release();
     }));
 
